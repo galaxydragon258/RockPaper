@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body{
+         background-color: rgb(25, 25, 25);
+         color:white;
+         font-family: arial;
+    }
+
+    .title{
+      font-weight: bold;
+      font-size: 50px;
+   
+    }
+
+   .move-button{
+      height: 120px;
+      width: 120px;
+     
+      
+      
+
+
+      
+   }
+
+   .button-layout{
+      background-color: transparent;
+      border: 1px solid white;
+      height: 150px;
+      width: 150px;
+      margin-left: 10px;
+      border-radius: 1715px;
+      cursor:pointer;
+      
+  
+   }
+   .reset{
+      font-weight: bold;
+      font-size: 15px;
+      height: 40px;
+      width: 130px;
+   
+      cursor:pointer;
+   }
+     
+
+
+
+    </style>
+</head>
+<body>
+
+   <p class = "title">ROCK PAPER SCISSCOR</p>
+
+    <button class = 'button-layout'
+    onclick="fun('Rock')"><img src = "images/rock-emoji.png" class = "move-button"></button>
+    <button class = 'button-layout'
+    onclick="fun('Scissors')"><img src = 'images/scissors-emoji-transparent.png' class = 'move-button'></button>
+    <button class = 'button-layout'
+    onclick="fun('Paper')"><image src="images/paper-emoji.png" class = 'move-button'></button>
+    
+    <p class = 'Scores'></p>
+    <p class = 'js-moves'></p>
+    
+    <p  class = "ScoreBoard">Score</p>
+    <button class = "reset" onclick="fun('Reset')">Reset</button>
+
+
+
+    <script>
+
+       
+  try {
+    const saved = localStorage.getItem('saved');
+    scoreBoards = saved ? JSON.parse(saved) : { Wins: 0, Losses: 0, Tie: 0 };
+  } catch (e) {
+    console.error("Error parsing localStorage JSON:", e);
+    scoreBoards = { Wins: 0, Losses: 0, Tie: 0 };
+    localStorage.removeItem('saved'); 
+  }
+
+        const choices = ['Rock','Paper','Scissors'];
+
+        scoreupdater()
+
+    
+        function fun(userChoice){
+            let result = '';
+         let computerChoice = choices[Math.floor(Math.random()*choices.length)];
+         if(computerChoice === userChoice){
+            result = 'Tie';
+        
+         }
+
+         else if (userChoice === 'Scissors' && computerChoice ==='Rock'){
+            result = 'Lose';
+         }
+         else if(userChoice === 'Paper' && computerChoice === 'Rock'){
+            result = 'Win';
+         }
+
+         
+         if(userChoice === 'Rock' && computerChoice === 'Paper'){
+            result = 'Lose';
+           
+         }
+          else if (userChoice === 'Scissors' && computerChoice ==='Paper'){
+            result = 'Win';
+         }
+       
+
+         if(userChoice === 'Rock' && computerChoice === 'Scissors'){
+            result = 'Win';
+           
+         }
+       
+         else if(userChoice === 'Paper' && computerChoice === 'Scissors'){
+            result = 'Lose';
+         }
+
+        
+         if(result === 'Win'){
+            scoreBoards.Wins +=1
+            document.querySelector('.Scores').innerHTML = "You Won !";
+             moves()
+         } 
+         else if(result === 'Lose'){
+            scoreBoards.Loses += 1;
+            document.querySelector('.Scores').innerHTML = "You Lose !";
+             moves()
+
+         } 
+         else if (result ==='Tie'){
+            scoreBoards.Tie +=1;
+            document.querySelector('.Scores').innerHTML = "Tie!";
+             moves()
+         }
+
+     
+
+         if(userChoice === 'Reset'){
+            scoreBoards.Wins =0;
+            scoreBoards.Loses =0;
+            scoreBoards.Tie =0;
+            localStorage.removeItem('saved');
+            
+
+         }
+
+             function moves(){
+            document.querySelector('.js-moves').innerHTML = 
+            `Your Move 
+            <img src =  "images/${userChoice.toLowerCase()}-emoji.png" class ='move-button'>
+            Computer
+            <img src = "images/${computerChoice.toLowerCase()}-emoji.png" class = "move-button"}">
+            `
+            
+            ;
+            
+         }
+
+       
+      
+         scoreupdater()
+
+
+         
+
+         localStorage.setItem('saved',JSON.stringify(scoreBoards));
+
+z
+        }
+
+        function scoreupdater(){
+            document.querySelector('.ScoreBoard').innerHTML = 
+            `Wins: ${scoreBoards.Wins} Loses: ${scoreBoards.Loses} Tie: ${scoreBoards.Tie}`;
+        }
+
+       
+   
+     
+
+        
+
+        
+
+
+
+
+
+    </script>
+    
+</body>
+</html>
